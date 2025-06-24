@@ -1,0 +1,98 @@
+<div class="card p-3">
+  <h3>{{ id ? 'Editar Transacción' : 'Crear Transacción' }}</h3>
+
+  <form [formGroup]="transaccionForm" (ngSubmit)="guardar()">
+
+    <div *ngIf="id !== null" class="form-group">
+      <label for="id">ID</label>
+      <input
+        id="id"
+        type="number"
+        [value]="id"
+        readonly
+        class="form-control"
+        style="background-color: #e9ecef; color: #555;"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="fecha" class="form-label">Fecha</label>
+      <input id="fecha" formControlName="fecha" type="date" class="form-control"
+             [class.is-invalid]="transaccionForm.get('fecha')?.touched && transaccionForm.get('fecha')?.invalid" />
+      <div class="invalid-feedback" *ngIf="transaccionForm.get('fecha')?.touched && transaccionForm.get('fecha')?.invalid">
+        La fecha es requerida.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="tipo" class="form-label">Tipo</label>
+      <select id="tipo" formControlName="tipo" class="form-control"
+              [class.is-invalid]="transaccionForm.get('tipo')?.touched && transaccionForm.get('tipo')?.invalid">
+        <option value="compra">Compra</option>
+        <option value="venta">Venta</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="transaccionForm.get('tipo')?.touched && transaccionForm.get('tipo')?.invalid">
+        El tipo es requerido.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="productoId" class="form-label">Producto</label>
+      <input
+        type="text"
+        placeholder="Buscar producto..."
+        class="form-control"
+        [formControl]="productoSearchControl"
+        (input)="buscarProductos()"
+      />
+      <ul *ngIf="productos.length">
+        <li *ngFor="let p of productos" (click)="seleccionarProducto(p)">
+          {{ p.id }} - {{ p.nombre }}
+        </li>
+      </ul>
+      <div class="invalid-feedback" *ngIf="transaccionForm.get('productoId')?.touched && transaccionForm.get('productoId')?.invalid">
+        El producto es requerido.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="cantidad" class="form-label">Cantidad</label>
+      <input id="cantidad" formControlName="cantidad" type="number" class="form-control"
+             (input)="calcularTotal()"
+             [class.is-invalid]="transaccionForm.get('cantidad')?.touched && transaccionForm.get('cantidad')?.invalid" />
+      <div class="invalid-feedback" *ngIf="transaccionForm.get('cantidad')?.touched && transaccionForm.get('cantidad')?.invalid">
+        La cantidad es requerida y debe ser mayor a 0.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="precioUnitario" class="form-label">Precio Unitario</label>
+      <input id="precioUnitario" formControlName="precioUnitario" type="number" class="form-control"
+             (input)="calcularTotal()"
+             [class.is-invalid]="transaccionForm.get('precioUnitario')?.touched && transaccionForm.get('precioUnitario')?.invalid" />
+      <div class="invalid-feedback" *ngIf="transaccionForm.get('precioUnitario')?.touched && transaccionForm.get('precioUnitario')?.invalid">
+        El precio unitario es requerido y debe ser mayor a 0.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="precioTotal" class="form-label">Precio Total</label>
+      <input id="precioTotal" [value]="transaccionForm.get('precioTotal')?.value" class="form-control"         
+        readonly
+        class="form-control"
+        style="background-color: #e9ecef; color: #555;" />
+    </div>
+
+    <div class="mb-3">
+      <label for="detalle" class="form-label">Detalle</label>
+      <textarea id="detalle" formControlName="detalle" class="form-control"></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="cancelar()">Cancelar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="transaccionForm.invalid">
+        {{ id ? 'Actualizar' : 'Crear' }}
+      </button>
+    </div>
+  </form>
+</div>

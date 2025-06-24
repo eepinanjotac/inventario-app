@@ -1,0 +1,92 @@
+<div class="card p-3">
+  <h3>{{ id ? 'Editar Producto' : 'Crear Producto' }}</h3>
+
+  <form [formGroup]="productoForm" (ngSubmit)="guardar()">
+
+    <div *ngIf="id !== null" class="form-group">
+      <label for="id">ID</label>
+      <input
+        id="id"
+        type="number"
+        [value]="id"
+        readonly
+        class="form-control"
+        style="background-color: #e9ecef; color: #555;"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input
+        id="nombre"
+        formControlName="nombre"
+        class="form-control"
+        [class.is-invalid]="productoForm.get('nombre')?.touched && productoForm.get('nombre')?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="productoForm.get('nombre')?.touched && productoForm.get('nombre')?.invalid">
+        El nombre es requerido.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea
+        id="descripcion"
+        formControlName="descripcion"
+        class="form-control"
+        [class.is-invalid]="productoForm.get('descripcion')?.touched && productoForm.get('descripcion')?.invalid"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="productoForm.get('descripcion')?.touched && productoForm.get('descripcion')?.invalid">
+        La descripción es requerida.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="categoria" class="form-label">Categoría</label>
+      <input
+        id="categoria"
+        formControlName="categoria"
+        class="form-control"
+        [class.is-invalid]="productoForm.get('categoria')?.touched && productoForm.get('categoria')?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="productoForm.get('categoria')?.touched && productoForm.get('categoria')?.invalid">
+        La categoría es requerida.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input
+        id="precio"
+        formControlName="precio"
+        class="form-control"
+        type="number"
+        [class.is-invalid]="productoForm.get('precio')?.touched && productoForm.get('precio')?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="productoForm.get('precio')?.touched && productoForm.get('precio')?.invalid">
+        El precio es requerido y debe ser mayor que 0.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="stock" class="form-label">Stock</label>
+      <input
+        id="stock"
+        formControlName="stock"
+        class="form-control"
+        type="number"
+        [class.is-invalid]="productoForm.get('stock')?.touched && productoForm.get('stock')?.invalid"
+      />
+      <div class="invalid-feedback" *ngIf="productoForm.get('stock')?.touched && productoForm.get('stock')?.invalid">
+        El stock es requerido y no puede ser negativo.
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-secondary me-2" (click)="cancelar()">Cancelar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">
+        {{ id ? 'Actualizar' : 'Crear' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,101 @@
+<!-- Filtro -->
+<div class="mb-3">
+  <label for="filtroInput" class="form-label">Filtrar transacciones</label>
+  <input
+    type="text"
+    id="filtroInput"
+    class="form-control"
+    [(ngModel)]="filtro"
+    (keyup)="aplicarFiltro()"
+    placeholder="Buscar..."
+  />
+</div>
+
+<!-- Botón Crear -->
+<div class="mb-3">
+  <button class="btn btn-success" [routerLink]="['/transacciones/crear']">Crear transaccion</button>
+</div>
+
+<!-- Tabla -->
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th style="text-align: center;" >Fecha</th>
+      <th>Tipo</th>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>P. Unitario</th>
+      <th>P. Total</th>
+      <th style="text-align: center;">Detalle</th>
+      <th style="text-align: center;">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of transacciones">
+      <td>{{ t.id }}</td>
+      <td>{{ t.fecha | date:'dd/MM/yyyy' }}</td>
+      <td>{{ t.tipo }}</td>
+      <td>{{ t.productoId }} - {{ t.nombreProducto }}</td>
+      <td>{{ t.cantidad }}</td>
+      <td>{{ t.precioUnitario | currency }}</td>
+      <td>{{ t.precioTotal | currency }}</td>
+      <td>{{ t.detalle }}</td>
+      <td style="text-align: center;" >
+        <button
+          class="btn btn-primary btn-sm me-2"
+          [routerLink]="['/transacciones', t.id, 'editar']"
+          title="Editar transaccion"
+        >
+          Editar
+        </button>
+        <button
+          class="btn btn-danger btn-sm"
+          (click)="eliminarTransaccion(t.id)"
+          title="Eliminar transacción"
+        >
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Paginación -->
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <div class="d-flex align-items-center">
+    <label for="pageSizeSelect" class="form-label me-2 mb-0">Items por página:</label>
+    <select
+      id="pageSizeSelect"
+      class="form-select d-inline-block w-auto"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange()"
+    >
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+
+  <div>
+    <small>{{ mostrarDesde() }} – {{ mostrarHasta() }} of {{ totalItems }}</small>
+  </div>
+
+  <nav aria-label="Paginación">
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="pageNumber === 1">
+        <button class="page-link" (click)="cambiarPagina(pageNumber - 1)">Anterior</button>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let page of paginas"
+        [class.active]="page === pageNumber"
+      >
+        <button class="page-link" (click)="cambiarPagina(page)">{{ page }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="pageNumber === totalPaginas">
+        <button class="page-link" (click)="cambiarPagina(pageNumber + 1)">Siguiente</button>
+      </li>
+    </ul>
+  </nav>
+</div>

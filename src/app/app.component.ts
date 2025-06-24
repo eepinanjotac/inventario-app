@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'inventario-app';
+  sidebarCollapsed = false;
+  currentYear = new Date().getFullYear();
 }
