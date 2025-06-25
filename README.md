@@ -19,7 +19,7 @@ Frontend
 ________________________________________
 🚀 Ejecución del Backend
 1️⃣ Clonar el proyecto
-git clone https://url-de-tu-repositorio.git
+git clone https://github.com/eepinanjotac/Inventario.Api.git
 2️⃣ Crear la Base de Datos
 •	Ejecuta el script SQL ubicado en la raíz del proyecto: Inventario.sql para crear la base de datos y las tablas.
 3️⃣ Configurar la Cadena de Conexión
@@ -33,9 +33,11 @@ Por defecto los servicios deberían correr en:
 •	Transacciones: http://localhost: 5270
 ________________________________________
 💻 Ejecución del Frontend
-1️⃣ Instalar Dependencias
+1️⃣ Clonar el proyecto
+git clone https://github.com/eepinanjotac/inventario-app.git
+2️⃣ Instalar Dependencias
 npm install
-2️⃣ Ejecutar la Aplicación
+3️⃣ Ejecutar la Aplicación
 ng serve
 La app debería estar disponible en: http://localhost:4200
 ________________________________________
